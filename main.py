@@ -3,8 +3,13 @@ from send_email import send_email
 
 
 api_key = "cc327becc996435bbed5c238ec32c485"
-url = str("https://newsapi.org/v2/top-headlines?country=us&category=business&a"\
-          "piKey=cc327becc996435bbed5c238ec32c485")  # define url as str
+
+# define url as str
+url = str("https://newsapi.org/v2/top-headlines?country=us"\
+          "&category=business"\
+          "&apiKey=cc327becc996435bbed5c238ec32c485"\
+            "&language=en")  
+        
 
 request = requests.get(url) # make request
 content = request.json() # convert the content into a json format dictionary
@@ -14,9 +19,10 @@ content = request.json() # convert the content into a json format dictionary
 
 body = ""
 
-for article in content["articles"]:
+for article in content["articles"][:10]:
 
-    body = body + str(article["title"]) + "\n" + str(article["description"]) + 2*"\n"
+    body = "Subject: Business News" + "\n" + body + str(article["title"]) + "\n" + str(article["description"])\
+          + "\n" + f"Link: {article['url']}" + 2*"\n"
 
 print(body)
 
